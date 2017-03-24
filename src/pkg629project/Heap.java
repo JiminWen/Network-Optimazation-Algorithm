@@ -13,43 +13,76 @@ public class Heap {
     int size;
     int[] H;   
     int[] D;  
+    HashMap<Integer,Integer> mapper;
     Heap(int[] vertices,int[] values){
+        
         H=new int[vertices.length+1];
         D=new int[values.length+1];
         size=vertices.length;
-        for(int i=1;i<H.length;++i){
+        for(int i=1;i<=vertices.length;++i){
             H[i]=vertices[i-1];
             D[i]=values[i-1];
         }
-        for(int i=1;i<H.length;++i){
+        for(int i=size/2;i>=1;--i){
             heapfy(i);
         }
     }
+    public void resize(int cap){
+        int[] temp1 = new int[cap];
+        int[] temp2= new int[cap];
+        for (int i = 1; i <= size; i++) {
+            temp1[i] = H[i];
+            temp2[i] = H[i];
+        }
+        H = temp1;
+        D = temp2;
+    }    
     public int maximum(){
         return H[1];
     }
     public void insert(int weight){
-        int[] temp1=new int[H.length+1];
-        int[] temp2=new int[D.length+1];
+//        int[] temp1=new int[H.length+1];
+//        int[] temp2=new int[D.length+1];
+//        size++;
+//        for(int i=1;i<=H.length-1;++i){
+//            temp1[i]=H[i];
+//            temp2[i]=D[i];
+//        }
+//        temp1[temp1.length-1]=H.length;
+//        temp2[temp2.length-1]=weight;
+//        H=temp1;
+//        D=temp2;
+
+//        heapfy(temp1.length-1);
+        if(size==H.length-1) resize(2*H.length);
         size++;
-        for(int i=1;i<=H.length-1;++i){
-            temp1[i]=H[i];
-            temp2[i]=D[i];
-        }
-        temp1[temp1.length-1]=H.length;
-        temp2[temp2.length-1]=weight;
-        heapfy(temp1.length-1);
+        H[size]=size;
+        D[size]=weight;
+        heapfy(size);
+    }
+    public void deletemax(){
+        delete(1);
     }
     public void delete(int h){
-        
-        size=size-1;
-        int[] temp1=new int[size];
-        int[] temp2=new int[size];
-        for(int i=1;i<temp1.length;++i){
-            temp1[i]=H[i];
-            temp2[i]=D[i];
-        }
+        H[h]=H[size];
+        D[h]=D[size];
+        size--;
+        if ((size > 0) && (size == (H.length - 1) / 4)) resize(H.length  / 2);
         heapfy(h);
+//        int[] temp1=new int[H.length-1];
+//        int[] temp2=new int[H.length-1];
+//        for(int i=1;i<temp1.length;++i){
+//            temp1[i]=H[i];
+//            temp2[i]=D[i];
+//        }
+//        if(h!=H.length-1){
+//        temp1[h]=H[H.length-1];
+//        temp2[h]=D[D.length-1];
+//        }
+//        H=temp1;
+//        D=temp2;
+//        size=size-1;
+//        heapfy(h);
     }
     public void heapfy(int k){
     if(k>1&&D[k]>D[k/2]){
