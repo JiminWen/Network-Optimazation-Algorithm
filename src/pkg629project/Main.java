@@ -22,12 +22,16 @@ public class Main {
     int[] vertices={1,2,3,4,5,6,7};
     int[] weight={100,65,8,45,2,1,6};
     Heap h=new Heap(vertices,weight);
+    System.out.println(h.mapper);
     h.deletemax();
     h.deletemax();
-    h.deletemax();
+    h.insert(1,120);
+   // h.deletemax();
     for(int i=1;i<=h.size;++i){
-    System.out.println(h.H[i]+"  "+h.D[i]);
+    System.out.println(h.H[i]+"  "+h.D[i]+" ");
+    
     }
+    System.out.println(h.mapper);
     }
     
 }
