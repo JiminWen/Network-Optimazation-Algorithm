@@ -12,7 +12,7 @@ package pkg629project;
 public class Edge {
 int w;
 int v;
-double weight;
+int weight;
 Edge(int start,int end,int weight){
     this.w=start;
     this.v=end;

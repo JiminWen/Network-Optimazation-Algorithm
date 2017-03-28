@@ -27,46 +27,17 @@ RandomGraph(int vertices,int de){
     adj = new ArrayList[v];
     for(int i=0;i<v;++i){
         adj[i]=new ArrayList<Edge>();
-    }
-  //  HashSet<Integer> set=new HashSet<>();
-//    int count=0;
-//    while(!finish){
-    
-//    int[] ver=new int[vertices*de];
-//    for(int i=0;i<vertices;++i){
-//        for(int j=0;j<de;++j){
-//            ver[i+j*vertices]=i;
-//        }
-//    }
-//   
-//    shuffle(ver);
-//    
-//    for (int i = 0; i < vertices*de/2; i++) {
-//        int v1=ver[2*i];
-//        int v2=ver[2*i+1];
-//        int weight=random.nextInt(21);
-//        adj[v1].add(new Edge(v1,v2,weight));
-//        adj[v2].add(new Edge(v2,v1,weight));
-//    }
-//    finish=works(adj);
-//    count++;
-//    }
- //   System.out.print("count="+count);
+    } 
     int count=v;
-    //boolean repeat=false;
-    random=new Random();
-    
+    random=new Random();    
     repeat=false;    
-  //  count=v;
     for(int i=0;i<v;++i){
-        if(adj[i].size()==6) continue;
-        System.out.println(i+" "+count+" "+adj[i].size());
+        if(adj[i].size()==degree) continue;
         if(count-1<de-adj[i].size()) {
             repeat=true;
             for(int j=0;j<v;++j){
             adj[j]=new ArrayList<Edge>();
             }
-           // count=v;
             break;
         }
         
@@ -74,17 +45,15 @@ RandomGraph(int vertices,int de){
             int temp=random.nextInt(v-i)+i;
             if(temp!=i&&!contain(temp,adj[i])&&adj[temp].size()<de){
                 Edge edge1=new Edge(i,temp);
-                edge1.setWeight(random.nextInt(21));
+                edge1.setWeight(random.nextInt(20)+1);
                 adj[i].add(edge1);
                 Edge edge2=new Edge(temp,i);
-                edge2.setWeight(random.nextInt(21));
+                edge2.setWeight(random.nextInt(20)+1);
                 adj[temp].add(edge2);
-                System.out.println(i+"  "+temp+"  "+count+" "+(6-adj[i].size()));
                 if(adj[temp].size()==de) count--;
                 if(adj[i].size()==de)count--;
             }    
-        }
-        
+        }        
     } 
     }while(repeat==true);
 }
@@ -93,22 +62,20 @@ RandomGraph(int vertices,double p){
     adj = new ArrayList[v];
     random=new Random();
     for(int i=0;i<v;++i){
-        adj[i]=new ArrayList<Edge>();
-        
+        adj[i]=new ArrayList<Edge>();        
     }
     for(int i=0;i<v;++i){
         for(int j=i+i;j<v;++j){
             if(random.nextDouble()<0.2){
-                int weight=random.nextInt(21);
+                int weight=random.nextInt(20)+1;
                 adj[i].add(new Edge(i,j,weight));
                 adj[j].add(new Edge(j,i,weight));
             }    
         }
-        
     }
-//    for(int i=0;i<100;++i){
-//    System.out.println(adj[i].size());
-//    }
+}
+public ArrayList<Edge> getNeighbour(int i){
+    return adj[i];
 }
 public boolean works(ArrayList<Edge>[] adj) {
     HashSet<Integer> set=new HashSet<>();
@@ -117,8 +84,7 @@ public boolean works(ArrayList<Edge>[] adj) {
         for(Edge temp:list){
             if(set.contains(temp.v)){
                     for(Edge print:list){
-                        System.out.print(print.v+"  ");
-                        
+                        System.out.print(print.v+"  ");                        
                     }
                     System.out.println();
                 return false;

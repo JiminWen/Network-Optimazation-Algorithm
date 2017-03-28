@@ -30,6 +30,10 @@ public class Heap {
             heapfy(i);
         }
     }
+    public void updateKey(int key,int weight){
+        D[key]=weight;
+        heapfy(key);
+    }
     public void resize(int cap){
         int[] temp1 = new int[cap];
         int[] temp2= new int[cap];
@@ -42,6 +46,11 @@ public class Heap {
     }    
     public int maximum(){
         return H[1];
+    }
+    public int extractMax(){
+        int temp=maximum();
+        deletemax();
+        return temp;
     }
     public void insert(int v,int weight){
 //        int[] temp1=new int[H.length+1];
@@ -76,21 +85,6 @@ public class Heap {
         mapper.put(H[h],h);
         if ((size > 0) && (size == (H.length - 1) / 4)) resize(H.length  / 2);
         heapfy(h);
-        
-//        int[] temp1=new int[H.length-1];
-//        int[] temp2=new int[H.length-1];
-//        for(int i=1;i<temp1.length;++i){
-//            temp1[i]=H[i];
-//            temp2[i]=D[i];
-//        }
-//        if(h!=H.length-1){
-//        temp1[h]=H[H.length-1];
-//        temp2[h]=D[D.length-1];
-//        }
-//        H=temp1;
-//        D=temp2;
-//        size=size-1;
-//        heapfy(h);
     }
     public void heapfy(int k){
     if(k>1&&D[k]>D[k/2]){
@@ -120,5 +114,8 @@ public class Heap {
     H[i2]=temp2;
     mapper.put(H[i1], i1);
     mapper.put(H[i2], i2);
-    }    
+    }
+    public int getPosition(int v){
+    return mapper.get(v);
+    }
     }
