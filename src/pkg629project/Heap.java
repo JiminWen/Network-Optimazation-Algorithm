@@ -16,6 +16,12 @@ public class Heap {
     int[] H;  //record the vertices in the heap 
     int[] D;  //record value in the heap
     HashMap<Integer,Integer> mapper; //Map index of a vertex to position in the heap
+    Heap(){
+        mapper=new HashMap();
+        H=new int[1];
+        D=new int[1];
+        mapper=new HashMap();
+    }    
     Heap(int[] vertices,int[] values){
         mapper=new HashMap();
         H=new int[vertices.length+1];

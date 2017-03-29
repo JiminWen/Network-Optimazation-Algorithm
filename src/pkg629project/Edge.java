@@ -7,7 +7,7 @@ package pkg629project;
 
 /**
  *
- * @author jimin
+ * @author jimin   
  */
 public class Edge {
 int w;

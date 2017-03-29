@@ -24,6 +24,7 @@ RandomGraph(int vertices,int de){
     this.degree=de;
     boolean repeat=false;
     do{
+    e=0;    
     adj = new ArrayList[v];
     for(int i=0;i<v;++i){
         adj[i]=new ArrayList<Edge>();
@@ -44,11 +45,12 @@ RandomGraph(int vertices,int de){
         while(adj[i].size()<de){
             int temp=random.nextInt(v-i)+i;
             if(temp!=i&&!contain(temp,adj[i])&&adj[temp].size()<de){
+                e++;
                 Edge edge1=new Edge(i,temp);
-                edge1.setWeight(random.nextInt(20)+1);
+                edge1.setWeight(random.nextInt(1000)+1);
                 adj[i].add(edge1);
                 Edge edge2=new Edge(temp,i);
-                edge2.setWeight(random.nextInt(20)+1);
+                edge2.setWeight(random.nextInt(1000)+1);
                 adj[temp].add(edge2);
                 if(adj[temp].size()==de) count--;
                 if(adj[i].size()==de)count--;
@@ -59,6 +61,7 @@ RandomGraph(int vertices,int de){
 }
 RandomGraph(int vertices,double p){
     this.v=vertices;
+    e=0;
     adj = new ArrayList[v];
     random=new Random();
     for(int i=0;i<v;++i){
@@ -67,11 +70,18 @@ RandomGraph(int vertices,double p){
     for(int i=0;i<v;++i){
         for(int j=i+i;j<v;++j){
             if(random.nextDouble()<0.2){
-                int weight=random.nextInt(20)+1;
+                int weight=random.nextInt(1000)+1;
                 adj[i].add(new Edge(i,j,weight));
                 adj[j].add(new Edge(j,i,weight));
+                e++;
             }    
         }
+    }
+}
+public void connect(){
+    for(int i=0;i<v-1;++i){
+        adj[i].add(new Edge(i,i+1,new Random().nextInt(20)+1));
+        e++;
     }
 }
 public ArrayList<Edge> getNeighbour(int i){

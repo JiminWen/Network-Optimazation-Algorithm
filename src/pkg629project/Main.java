@@ -5,7 +5,9 @@
  */
 package pkg629project;
 
+import static pkg629project.MaxBandwithPath.Kruskal;
 import static pkg629project.MaxBandwithPath.noHeap;
+
 import static pkg629project.MaxBandwithPath.withHeap;
 
 /**
@@ -18,11 +20,18 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-    RandomGraph g=new RandomGraph(1000,0.2);
-    g.print();
-    noHeap(g,2);
-    withHeap(g,2);
-    
-
+    RandomGraph g1=new RandomGraph(5000,6);
+    //g.connect();
+    RandomGraph g2=new RandomGraph(5000,0.2);
+    g1.connect();
+    g2.connect();
+//    for(int i=0;i<26;++i){
+//    noHeap(g1,2,8);
+//    withHeap(g1,2,8);
+//    Kruskal(g1,2,8);
+//    noHeap(g2,2,8);
+//    withHeap(g2,2,8);
+//    Kruskal(g2,2,8);
+//    }
     }
 }
