@@ -7,6 +7,7 @@ package pkg629project;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -112,9 +113,7 @@ public void shuffle(int[] nums){
         nums[i]=nums[r];
         nums[r]=temp;        
     }
-//    for(int temp:nums){
-//    System.out.println(temp);
-//    }
+
 }    
 public boolean contain(int e, ArrayList<Edge> list){
     for(Edge m:list){
@@ -122,7 +121,26 @@ public boolean contain(int e, ArrayList<Edge> list){
     }
     return false;    
 }
-
+public boolean findPath(int start, int end,int[] visit,List<Integer> path,int[] bw){
+    visit[start]=1;
+    if(start==end) {
+        path.add(0,start);
+        //bw=Math.min();
+        return true;
+    }
+    for(Edge e:adj[start]){
+        if(visit[e.v]==0&&findPath(e.v,end,visit,path,bw)==true){
+            path.add(0,start);
+            //bw[0]=Math.min(bw[0],e.weight);
+            if(e.weight<bw[0]){
+                bw[0]=e.weight;
+                bw[1]=start;
+            }
+            return true;
+        }
+    }
+    return false;
+}
 public void print(){
     System.out.println(this.v+" "+this.degree);
     for(int i=0;i<v;++i){

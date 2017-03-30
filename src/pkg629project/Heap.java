@@ -26,13 +26,13 @@ public class Heap {
         mapper=new HashMap();
         H=new int[vertices.length+1];
         D=new int[values.length+1];
-        size=vertices.length;
+        size=vertices.length;                                                   //number of items in the heap
         for(int i=1;i<=vertices.length;++i){
             H[i]=vertices[i-1];
             D[i]=values[i-1];
             mapper.put(vertices[i-1],i);
         }
-        for(int i=size/2;i>=1;--i){
+        for(int i=size;i>=1;--i){
             heapfy(i);
         }
     }
@@ -45,7 +45,7 @@ public class Heap {
         int[] temp2= new int[cap];
         for (int i = 1; i <= size; i++) {
             temp1[i] = H[i];
-            temp2[i] = H[i];
+            temp2[i] = D[i];
         }
         H = temp1;
         D = temp2;
@@ -59,19 +59,6 @@ public class Heap {
         return temp;
     }
     public void insert(int v,int weight){
-//        int[] temp1=new int[H.length+1];
-//        int[] temp2=new int[D.length+1];
-//        size++;
-//        for(int i=1;i<=H.length-1;++i){
-//            temp1[i]=H[i];
-//            temp2[i]=D[i];
-//        }
-//        temp1[temp1.length-1]=H.length;
-//        temp2[temp2.length-1]=weiht;
-//        H=temp1;
-//        D=temp2;
-
-//        heapfy(temp1.length-1);
         if(size==H.length-1) resize(2*H.length);
         size++;
         H[size]=v;
@@ -100,11 +87,13 @@ public class Heap {
             h=h/2;
         }
     }
-    else if(k<size/2&&D[k]<Math.max(D[2*k], D[2*k+1])){
+    else if(k<=size/2){
         int h=k;
-        while(h<size/2&&D[h]<Math.max(D[2*h],D[2*h+1])){
-            int d=D[2*h]<D[2*h+1]?2*h+1:2*h;
-            exch(h,d);
+        while(h<=size/2){
+            int d=2*h;
+            if(d<size&&D[d+1]>D[d])d=d+1;
+           // int d=D[2*h]<D[2*h+1]?2*h+1:2*h;
+            if(D[h]<D[d])exch(h,d);
             h=d;
         }
     }

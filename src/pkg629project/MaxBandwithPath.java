@@ -17,6 +17,7 @@ import java.util.List;
  * @author jimin
  */
 public class MaxBandwithPath {
+   
     public enum Status {
     intree,
     fringe,
@@ -45,7 +46,7 @@ public class MaxBandwithPath {
         status[v]=Status.fringe;
         fringe.add(v);
     }
-    while(count<g.v&&fringe.size()!=0){
+    while(status[t]!=Status.intree){
         Collections.sort(fringe, (a, b) -> bw[b]-bw[a]);                        //pick the v with max bw
         int max=fringe.get(0);
         status[max]=Status.intree;
@@ -72,8 +73,9 @@ public class MaxBandwithPath {
         t=dad[t];
         path.add(t);        
     }    
-    System.out.println(bw);
     Collections.reverse(path);
+    System.out.println(bw);
+    
     return path;
     }
     public static List<Integer> withHeap(RandomGraph g,int s,int t){ //Generate a maxbandwidth path with heap
@@ -91,6 +93,7 @@ public class MaxBandwithPath {
         while(h.size!=0){
             //int bandwidth=h.D[h.getPosition(h.maximum())];
             int temp=h.extractMax();                                            //Get vertex with maximum bw            
+            if(temp==t) break;
             ArrayList<Edge> neighbour=g.getNeighbour(temp);
             for(Edge e:neighbour){
                 int end=e.v;                                                    //vertex at the other end
@@ -107,8 +110,9 @@ public class MaxBandwithPath {
         t=dad[t];
         path.add(t);        
     }    
-    System.out.println(bw);
     Collections.reverse(path);
+    System.out.println(bw);
+   
     return path;
     }
     public static List<Integer> Kruskal(RandomGraph g, int s, int t){
@@ -130,21 +134,30 @@ public class MaxBandwithPath {
         }
     }
     Heap h=new Heap(index,weight);
-    Edge[] res=new Edge[g.v-1];
+    //Edge[] res=new Edge[g.v-1];
     int e=0;
-    //System.out.print("hehe");
+    RandomGraph MST=new RandomGraph(g.v,0);
     while(h.size!=0){
         int temp=h.extractMax();                                                //index of the edge
-        int start=map.get(temp).w;                                              //the starting point of edge
-        int end=map.get(temp).v;                                                //the end of the edge
-        int W=map.get(temp).weight;                                                 
+        Edge edge=map.get(temp);
+        int start=edge.w;                                              //the starting point of edge
+        int end=edge.v;                                                //the end of the edge
+        int W=edge.weight;                                                 
         if(UF.find(start)!=UF.find(end)){
         UF.Union(start, end);
-        res[e++]=map.get(temp);                                                 //Add the edge
+        //res[e++]=map.get(temp);                                                 //Add the edge
+        MST.adj[start].add(edge);
+        MST.adj[end].add(new Edge(end,start,W));
         }
     }
     System.out.print("hehe");
-    List<Integer> path=new ArrayList<>();
+    int[] visit=new int[g.v];
+    List<Integer> path=new ArrayList<Integer>();
+    int[] bw=new int[2];
+    bw[0]=Integer.MAX_VALUE;
+    bw[1]=-1;
+    MST.findPath(s, t,visit,path,bw);
+    System.out.print("test");
     return path;
 }
 }
